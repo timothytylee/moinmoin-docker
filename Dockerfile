@@ -19,6 +19,15 @@ RUN set -ex \
 	&& sed -i "s/^#log.load_config('\/path\/to\/logging_configuration_file')/log.load_config('\/usr\/local\/moin\/config\/logging\/logfile')/" /usr/local/moin/server/moin.* \
 	&& mkdir -p /usr/local/moin/log
 
+# Install memodump theme
+RUN set -ex \
+	&& wget https://github.com/dossist/moinmoin-memodump/archive/refs/tags/v0.2.2.tar.gz \
+	&& tar -zxf v0.2.2.tar.gz \
+	&& cp moinmoin-memodump-0.2.2/memodump.py /usr/local/lib/python2.7/site-packages/MoinMoin/theme/ \
+	&& cp -r moinmoin-memodump-0.2.2/memodump /usr/local/lib/python2.7/site-packages/MoinMoin/web/static/htdocs/ \
+	&& rm -f v0.2.2.tar.gz \
+	&& rm -rf moinmoin-memodump-0.2.2 \
+
 ENV PATH /usr/local/moin/server:$PATH
 
 # Install uWSGI

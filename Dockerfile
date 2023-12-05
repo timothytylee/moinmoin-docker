@@ -36,6 +36,13 @@ RUN set -ex \
 
 COPY moin/uwsgi.ini /usr/local/moin/
 
+# Install python-ldap
+RUN set -ex \
+	&& apt-get update \
+	&& apt-get install -y libldap2-dev libsasl2-dev \
+	&& rm -rf /var/lib/apt/lists \
+	&& pip install --no-cache-dir "python-ldap==2.5.2"
+
 # Copy docker-entrypoint.sh
 COPY docker-entrypoint.sh /
 
